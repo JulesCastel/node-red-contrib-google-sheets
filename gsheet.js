@@ -14,6 +14,11 @@ module.exports = function (RED) {
             } else {
                 this.sheet = config.sheet;
             }
+            if (!config.tab) {
+              this.tab = msg.tab;
+            } else {
+              this.tab = config.tab;
+            }
 
             if (!config.cells) {
                 if (msg.cells) {
@@ -40,6 +45,7 @@ module.exports = function (RED) {
             let cells = this.cells;
             let method = this.method;
             let flatten = this.flatten;
+            let tab = this.tab;
             let sheets = google.sheets('v4');
 
             jwtClient.authorize(function (err, tokens) {
@@ -136,6 +142,39 @@ module.exports = function (RED) {
                                 }
                             });
                             break;
+
+                          case 'addSheet':
+                              if (!tab) {
+                                node.error('Missing tab name. Provide config.tab or msg.tab.', msg);
+                                return;
+                              }
+                              sheets.spreadsheets.batchUpdate({
+                                auth: jwtClient,
+                                spreadsheetId: sheet,
+                                resource: {
+                                  requests: [{
+                                    addSheet: {
+                                      properties: {
+                                        title: tab,
+                                      }
+                                    }
+                                  }]
+                                }
+                              }, function (err, response) {
+                                if (err) {
+                                  node.error('The API returned an error: ' + err, msg);
+                                } else {
+                                  const props = response.data.replies?.[0]?.addSheet?.properties;
+                                  msg.payload = {
+                                    ok: true,
+                                    sheetId: props?.sheetId,
+                                    title: props?.title,
+                                    properties: props
+                                  };
+                                  node.send(msg);
+                                }
+                              });
+                              break;
                     }
                 }
             });
