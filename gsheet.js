@@ -32,7 +32,7 @@ module.exports = function(RED) {
            let sheet = this.sheet;
            let cells = this.cells;
            let method = this.method;
-           let flaten = this.flatten;
+           let flatten = this.flatten;
            let sheets = google.sheets('v4');
 			     jwtClient.authorize(function (err, tokens) {
 			       if (err) {
@@ -49,7 +49,7 @@ module.exports = function(RED) {
     				         if (err) {
     						       node.error('The API returned an error: ' + err, msg);
     				         } else {
-                       if (flaten){
+                       if (flatten){
                         msg.payload = response.data.values.flat();
                        } else {
                         msg.payload = response.data.values;
@@ -64,7 +64,7 @@ module.exports = function(RED) {
                        msg.payload = {"values": msg.payload}
                      } else {
                        msg.payload = {"values": [msg.payload]}
-                     }   
+                     }
                    } else{
                      msg.payload = {"values": [[msg.payload]]}
                    }
@@ -90,7 +90,7 @@ module.exports = function(RED) {
                        msg.payload = {"values": msg.payload}
                      } else {
                        msg.payload = {"values": [msg.payload]}
-                     }   
+                     }
                    } else{
                      msg.payload = {"values": [[msg.payload]]}
                    }
@@ -122,15 +122,15 @@ module.exports = function(RED) {
     						       node.send(msg);
     				         }
     			         });
-                  break;             
-               } 
+                  break;
+               }
              }
 			     });
         });
   }
-  
-  
-  
+
+
+
   function gauth(n){
      RED.nodes.createNode(this, n);
      this.creds = n.creds;
@@ -140,7 +140,7 @@ module.exports = function(RED) {
    credentials: {
      creds: {type:"text"}
    }
-  });  
+  });
 }
 
 function flatten(arr) {
