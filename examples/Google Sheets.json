@@ -124,6 +124,25 @@
         "h": 162
     },
     {
+        "id": "3ec726ad7181880a",
+        "type": "group",
+        "z": "553d5e29.2be8e8",
+        "name": "Add a new Sheet to document",
+        "style": {
+            "fill": "#bfdbef",
+            "label": true
+        },
+        "nodes": [
+            "a81cbf233e059664",
+            "b9f3a161139157bc",
+            "688953f8a95b8bf5"
+        ],
+        "x": 274,
+        "y": 699,
+        "w": 712,
+        "h": 82
+    },
+    {
         "id": "9ee49239.e1f2",
         "type": "GSheet",
         "z": "553d5e29.2be8e8",
@@ -612,6 +631,70 @@
         "info": "You will need to generate your own set of credentials to use in the GSheet Node and also edit the SpreadsheetID to be one you have permission to edit.",
         "x": 110,
         "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a81cbf233e059664",
+        "type": "inject",
+        "z": "553d5e29.2be8e8",
+        "g": "3ec726ad7181880a",
+        "name": "Create New Tab",
+        "props": [
+            {
+                "p": "tab",
+                "v": "new tab",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 400,
+        "y": 740,
+        "wires": [
+            [
+                "b9f3a161139157bc"
+            ]
+        ]
+    },
+    {
+        "id": "b9f3a161139157bc",
+        "type": "GSheet",
+        "z": "553d5e29.2be8e8",
+        "g": "3ec726ad7181880a",
+        "creds": "9f9aed1d.9a434",
+        "method": "addSheet",
+        "action": "",
+        "sheet": "1UuVIH2O38XK0TfPMGHk0HG_ixGLtLk6WoBKh4YSrDm4",
+        "cells": "",
+        "flatten": false,
+        "name": "",
+        "x": 690,
+        "y": 740,
+        "wires": [
+            [
+                "688953f8a95b8bf5"
+            ]
+        ]
+    },
+    {
+        "id": "688953f8a95b8bf5",
+        "type": "debug",
+        "z": "553d5e29.2be8e8",
+        "g": "3ec726ad7181880a",
+        "name": "msg",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 740,
         "wires": []
     },
     {
